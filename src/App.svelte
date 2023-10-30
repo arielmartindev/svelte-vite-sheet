@@ -3,15 +3,19 @@
   import axios from "axios";
   import Papa from "papaparse";
 
-  let titles = ["#", "Title", "Category", "description", "image", "price"];
-  let products = [];
-  let filteredProducts = [];
+  let titles = ["#", "Fecha", "Cliente", "Cantidad", "Archivo", "Detalle"];
+  const test = titles[1]
+  //console.log(test)
+  let api_data = [];
+  let filtered_api_data = [];
   let ref = null;
 
+  //let api_url="https://docs.google.com/spreadsheets/d/e/2PACX-1vQf4UCa5rxjlaMxyWyNZuKoU7OLiqbASR3bs8QS4R75E3JmgQSfO8FtyA5qH5dlg1PlLUj6plEHNMKE/pub?output=csv"
+  let api_url="https://docs.google.com/spreadsheets/d/e/2PACX-1vScW7EEoexKUbLaMS7JpgA1icdQGPzgDPxPMhFM59tdeZbeWuZyxZyFMbBwIP9Y57y8FvP_vT2-UXcA/pub?output=csv"
+  
   const list = async () => {
     return axios
-      .get(
-        "https://docs.google.com/spreadsheets/d/e/2PACX-1vQf4UCa5rxjlaMxyWyNZuKoU7OLiqbASR3bs8QS4R75E3JmgQSfO8FtyA5qH5dlg1PlLUj6plEHNMKE/pub?output=csv",
+      .get(api_url,
         {
           responseType: "blob",
         }
@@ -30,18 +34,18 @@
 
   const getProducts = async () => {
      const data = await list();
-     products = data
-     filteredProducts = data
+     api_data = data
+     filtered_api_data = data
      console.log(data)
   }
 
   getProducts()
 
-  const searchProduct = (value) => {
-    filteredProducts = products.filter(
-      (product) =>
-        product.id.toLowerCase().includes(value.toLowerCase()) ||
-        product.title.toLowerCase().includes(value.toLowerCase())
+  const search_data = (value) => {
+    filtered_api_data = api_data.filter(
+      (item) =>
+        item.cliente.toLowerCase().includes(value.toLowerCase()) ||
+        item.fecha.toLowerCase().includes(value.toLowerCase())
     );
   };
 
@@ -52,17 +56,19 @@
 
 <main class="container">
   <div class="row">
-    <h1>Viis Market (Google Sheet API)</h1>
+
+    <h1>Viis Planilla</h1>
 
     <input
       type="text"
       class="form-control bg-dark text-white my-4"
-      placeholder="Search your coin"
-      on:keyup={({ target: { value } }) => searchProduct(value)}
+      placeholder="Buscar"
+      on:keyup={({ target: { value } }) => search_data(value)}
       bind:this={ref}
     />
 
     <table class="table table-dark">
+
       <thead>
         <tr>
           {#each titles as title}
@@ -70,37 +76,46 @@
           {/each}
         </tr>
       </thead>
+
       <tbody>
-        {#each filteredProducts as product, i}
+        {#each filtered_api_data as data, i}
           <tr>
             <td>{i + 1}</td>
             <td>
-              <img
-                src={product.image}
-                alt={product.title}
-                style="width: 5rem"
-                class="img-fluid me-2"
-              />
-              <span>{product.title}</span>
-              <span class="text-muted text-uppercase ms-2">
-                {product.description}
-              </span>
+
+              <span>{data.fecha}</span>
+
+              <!--<span class="text-muted text-uppercase ms-2">
+                {data.Correos}
+              </span>-->
+
             </td>
+
             <td>
-              {product.category}
+              {data.cliente}
             </td>
+
             <td
-              class={product.description > 0
+              class={data.cantidad > 0
                 ? "text-success"
                 : "text-danger"}
             >
-              {product.description}
+              {data.cantidad}
+            </td>
+
+            <td>
+              <!--<a href="{data.image}" target="_blank">{data.image}</a>-->
+
+              <img
+                src={data.archivo}
+                alt={data.cliente}
+                style="width: 5rem; background:white"
+                class="img-fluid me-2"
+              />
+
             </td>
             <td>
-              <a href="{product.image}" target="_blank">{product.image}</a>
-            </td>
-            <td>
-              u$s {product.price}
+              <a href="{data.id}">Detalle</a>
             </td>
           </tr>
         {/each}
