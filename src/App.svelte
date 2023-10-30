@@ -3,9 +3,8 @@
   import axios from "axios";
   import Papa from "papaparse";
 
-  let titles = ["#", "Fecha", "Cliente", "Cantidad", "Archivo", "Detalle"];
-  const test = titles[1]
-  //console.log(test)
+  let titles = ["#", "Fecha", "Cliente","Diseñador", "Cantidad","Color", "Archivo", "Detalle"];
+
   let api_data = [];
   let filtered_api_data = [];
   let ref = null;
@@ -95,12 +94,20 @@
               {data.cliente}
             </td>
 
+            <td>
+              {data.diseñador}
+            </td>
+
             <td
               class={data.cantidad > 0
                 ? "text-success"
                 : "text-danger"}
             >
               {data.cantidad}
+            </td>
+
+            <td>
+              {data.color}
             </td>
 
             <td>
