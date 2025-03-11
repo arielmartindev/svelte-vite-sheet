@@ -3,7 +3,7 @@
   import axios from "axios";
   import Papa from "papaparse";
 
-  let titles = ["#", "Fecha", "Cliente","Diseñador", "Cantidad","Color", "Archivo", "Detalle"];
+  let titles = ["#", "Fecha", "Cliente","Diseñador", "Cantidad","Color", "Archivo"];
 
   let api_data = [];
   let filtered_api_data = [];
@@ -69,7 +69,7 @@
     <table class="table table-dark">
 
       <thead>
-        <tr>
+        <tr class="text-uppercase">
           {#each titles as title}
             <td>{title}</td>
           {/each}
@@ -110,7 +110,7 @@
               {data.color}
             </td>
 
-            <td>
+            <td class="text-center">
               <a href="{data.archivo}" target="_blank">
 
               <img
@@ -121,9 +121,9 @@
               />
             </a>
             </td>
-            <td>
+            <!-- <td>
               <a href="{data.id}">Detalle</a>
-            </td>
+            </td> -->
           </tr>
         {/each}
       </tbody>
