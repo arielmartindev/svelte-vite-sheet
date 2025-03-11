@@ -111,7 +111,7 @@
             </td>
 
             <td>
-              <!--<a href="{data.image}" target="_blank">{data.image}</a>-->
+              <a href="{data.archivo}" target="_blank">
 
               <img
                 src={data.archivo}
@@ -119,7 +119,7 @@
                 style="width: 5rem; background:white"
                 class="img-fluid me-2"
               />
-
+            </a>
             </td>
             <td>
               <a href="{data.id}">Detalle</a>
